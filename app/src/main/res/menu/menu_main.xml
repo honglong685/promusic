@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_pick_folder"
+        android:title="@string/action_pick_folder"
+        android:icon="@drawable/ic_folder"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_add_file"
+        android:title="@string/action_add_file"
+        android:icon="@drawable/ic_add_file"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_save_list"
+        android:title="@string/action_save_list"
+        android:icon="@drawable/ic_save"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_open_list"
+        android:title="@string/action_open_list"
+        android:icon="@drawable/ic_playlist"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_network"
+        android:title="@string/action_network"
+        android:icon="@drawable/ic_cloud"
+        app:showAsAction="ifRoom" />
+</menu>

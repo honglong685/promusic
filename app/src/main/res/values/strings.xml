@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">ProMusic</string>
+
+    <string name="action_pick_folder">指定文件夹</string>
+    <string name="action_add_file">添加文件</string>
+    <string name="action_network">网络歌单</string>
+    <string name="list_title_default">播放列表</string>
+    <string name="action_save_list">保存列表</string>
+    <string name="action_open_list">打开列表</string>
+    <string name="action_refresh">刷新</string>
+    <string name="action_shuffle">随机</string>
+    <string name="action_repeat">循环模式</string>
+    <string name="repeat_off">顺序播放</string>
+    <string name="repeat_all">列表循环</string>
+    <string name="repeat_one">单曲循环</string>
+    <string name="shuffle_on">随机播放已开启</string>
+    <string name="shuffle_off">随机播放已关闭</string>
+
+    <string name="hint_search">搜索曲目</string>
+
+    <string name="dialog_network_title">加载网络歌单</string>
+    <string name="dialog_network_hint">输入歌单 JSON 链接 (http/https)</string>
+    <string name="dialog_sample_url">https://example.com/playlist.json</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_load">加载</string>
+
+    <string name="empty_title">还没有歌曲</string>
+    <string name="empty_subtitle">扫描本地音乐或加载网络歌单开始播放</string>
+
+    <string name="perm_audio_rationale">需要读取音频文件权限以扫描本地音乐，请授予权限。</string>
+    <string name="perm_audio_denied">未授予读取音频权限，无法扫描本地音乐。</string>
+    <string name="scan_done">扫描完成，共 %1$d 首</string>
+    <string name="scan_empty">未找到本地音乐</string>
+    <string name="scan_folder_empty">该文件夹中没有音频文件</string>
+    <string name="scan_folder_failed">扫描文件夹失败：%1$s</string>
+    <string name="folder_depth_title">扫描范围</string>
+    <string name="folder_depth_sub">包含子文件夹（递归扫描所有子目录）</string>
+    <string name="folder_depth_top">仅当前文件夹（不扫描子目录）</string>
+    <string name="loading">加载中…</string>
+    <string name="action_remove_from_list">从列表移除</string>
+    <string name="removed_from_list">已从列表移除：%1$s</string>
+    <string name="added_files">已添加 %1$d 个文件到列表</string>
+    <string name="add_file_empty">未选择文件</string>
+
+    <string name="save_dialog_title">保存列表</string>
+    <string name="save_hint">列表名称</string>
+    <string name="save_success">已保存列表：%1$s</string>
+    <string name="save_failed">保存列表失败</string>
+    <string name="save_empty">当前列表为空，无法保存</string>
+    <string name="open_dialog_title">打开已保存列表</string>
+    <string name="open_empty">没有已保存的列表</string>
+    <string name="open_success">已加载：%1$s (%2$d 首)</string>
+    <string name="open_failed">加载列表失败</string>
+    <string name="delete_list">删除</string>
+
+    <string name="playback_channel_name">音乐播放</string>
+    <string name="action_play">播放</string>
+    <string name="action_pause">暂停</string>
+    <string name="action_next">下一首</string>
+    <string name="action_prev">上一首</string>
+</resources>
