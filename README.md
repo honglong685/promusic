@@ -32,7 +32,8 @@ ProMusic 的出发点很简单：**把那些乱七八糟的东西全砍掉，只
 
 ## 截图
 
-*(待补充)*
+<img width="243" height="548" alt="image" src="https://github.com/user-attachments/assets/ae4c4a15-d785-4f7c-af51-f9fba8c49262" />
+
 
 ## 技术栈
 
