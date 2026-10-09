@@ -26,6 +26,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,6 +63,8 @@ public class MainActivity extends AppCompatActivity
         PlaylistManager.Listener {
 
     private MaterialToolbar toolbar;
+    private View appBar;
+    private View playbackBar;
     private TextView listTitle;
     private RecyclerView recyclerView;
     private View emptyState;
@@ -160,12 +166,21 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Android 15+ (API 35+) forces edge-to-edge for apps targeting SDK 35+, and
+        // Android 16 (API 36) drops the opt-out entirely: the window now draws behind
+        // the status/navigation bars. Opt in explicitly on every API level so the
+        // behaviour is identical everywhere, then absorb the insets below.
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         setContentView(R.layout.activity_main);
 
         storage = new PlaylistStorage(this);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        appBar = findViewById(R.id.appBar);
+        playbackBar = findViewById(R.id.playbackBar);
+        applyWindowInsets();
 
         listTitle = findViewById(R.id.listTitle);
         recyclerView = findViewById(R.id.recyclerView);
@@ -239,6 +254,47 @@ public class MainActivity extends AppCompatActivity
             // push the current state to refresh the UI.
             pm.notifyState(this);
         }
+    }
+
+    /**
+     * Keeps the app's own bars clear of the system bars.
+     *
+     * <p>Because the window is edge-to-edge, the status bar sits <em>on top of</em>
+     * the {@code AppBarLayout} and the navigation bar sits on top of the playback
+     * bar. Adding the corresponding window insets as padding pushes the toolbar
+     * title and the transport controls back into the safe area, while the bars'
+     * own backgrounds (brand blue / surface) still fill the space behind the
+     * system bars — the same look the old {@code statusBarColor} gave us.
+     *
+     * <p>The base padding captured here is the layout-declared padding, so
+     * repeated inset dispatches (rotation, cutout changes, ...) stay idempotent.
+     */
+    private void applyWindowInsets() {
+        final int appBarBasePaddingTop = appBar.getPaddingTop();
+        final int playbackBarBasePaddingBottom = playbackBar.getPaddingBottom();
+        final View root = findViewById(R.id.root);
+
+        ViewCompat.setOnApplyWindowInsetsListener(root, (v, windowInsets) -> {
+            Insets bars = windowInsets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+                            | WindowInsetsCompat.Type.displayCutout());
+
+            // Top bar: keep the toolbar below the status bar / display cutout.
+            appBar.setPadding(bars.left,
+                    appBarBasePaddingTop + bars.top,
+                    bars.right,
+                    0);
+
+            // Bottom bar: keep the transport controls above the gesture / nav bar.
+            playbackBar.setPadding(bars.left,
+                    0,
+                    bars.right,
+                    playbackBarBasePaddingBottom + bars.bottom);
+
+            // Left/right insets are consumed by both bars, so let the rest of the
+            // tree see the remaining insets untouched.
+            return windowInsets;
+        });
     }
 
     @Override

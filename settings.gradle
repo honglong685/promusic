@@ -1,5 +1,8 @@
 pluginManagement {
     repositories {
+        // 国内可达镜像，放在官方源之前优先尝试，避免 dl.google.com / plugins.gradle.org 超时
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -17,6 +20,9 @@ plugins {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        // 国内可达镜像（含 google / central / gradle-plugin 代理）
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
         google()
         mavenCentral()
     }

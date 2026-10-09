@@ -13,8 +13,21 @@
         <item name="colorSurface">@color/surface</item>
         <item name="colorOnSurface">@color/on_surface</item>
         <item name="android:colorBackground">@color/surface</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/accent_end</item>
+
+        <!--
+            Edge-to-edge (Android 15+ / API 35+ is enforced by the platform and
+            Android 16 / API 36 removes the opt-out). Both system bars are made
+            transparent so the app's own AppBar / playback bar backgrounds show
+            through. The window insets are consumed in MainActivity, which pads
+            the app bar and playback bar so nothing hides behind the system bars.
+            statusBarColor is deprecated on API 35+ and kept only for older ones.
+        -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="p">shortEdges</item>
     </style>
 </resources>
