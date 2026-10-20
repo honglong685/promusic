@@ -58,4 +58,6 @@
     <string name="action_pause">暂停</string>
     <string name="action_next">下一首</string>
     <string name="action_prev">上一首</string>
+    <string name="audio_device_disconnected_paused">音频设备已断开，已暂停播放</string>
+    <string name="audio_focus_lost_paused">音频焦点被占用，已暂停播放</string>
 </resources>

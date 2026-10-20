@@ -49,6 +49,8 @@ import com.osmbbt.promusic.playback.MusicService;
 import com.osmbbt.promusic.playback.PlaybackListener;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -412,8 +414,11 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "歌单为空", Toast.LENGTH_SHORT).show();
             return;
         }
+        // Start as a *started* service so it survives backgrounding, then play.
+        // If the binding hasn't connected yet, defer via pendingPlay (consumed in syncPlaybackUi).
         startService(new Intent(this, MusicService.class));
         if (bound && musicService != null) musicService.playTrack(t);
+        else pendingPlay = t;
     }
 
     // ---- PlaylistManager.Listener -------------------------------------------
@@ -423,7 +428,7 @@ public class MainActivity extends AppCompatActivity
         runOnUiThread(() -> {
             listTitle.setText(playlist != null ? playlist.getName() : getString(R.string.list_title_default));
             if (playlist == null || playlist.isEmpty()) {
-                adapter.setTracks(java.util.Collections.emptyList());
+                adapter.setTracks(Collections.emptyList());
                 emptyState.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.GONE);
             } else {
@@ -485,9 +490,9 @@ public class MainActivity extends AppCompatActivity
 
     // ---- add individual files to the current list ---------------------------
 
-    private void onFilesPicked(@NonNull java.util.List<Uri> uris) {
+    private void onFilesPicked(@NonNull List<Uri> uris) {
         io.execute(() -> {
-            java.util.List<Track> newTracks = new java.util.ArrayList<>();
+            ArrayList<Track> newTracks = new ArrayList<>();
             for (Uri uri : uris) {
                 Track t = trackFromUri(uri);
                 if (t != null) newTracks.add(t);
