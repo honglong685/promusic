@@ -221,7 +221,25 @@ public class MusicService extends Service {
             mediaSession = null;
         }
         releasePlayer();
+        // Guarantee the media notification is removed on every teardown path
+        // (including when the host process is killed), so it can't linger in
+        // the status bar after the app is closed.
+        stopForeground(Service.STOP_FOREGROUND_REMOVE);
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (nm != null) nm.cancel(NOTIFICATION_ID);
         super.onDestroy();
+    }
+
+    /**
+     * Called when the user swipes the app out of the recent-tasks list. If we are
+     * not actively playing, tear the service down so the media notification does
+     * not linger in the status bar. While playing we keep the foreground service
+     * alive for background playback (as intended).
+     */
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        if (!playing) stopSelf();
+        super.onTaskRemoved(rootIntent);
     }
 
     // ---- public API (called by bound UI) --------------------------------------
@@ -312,6 +330,11 @@ public class MusicService extends Service {
         updateNotification();
         notifyState();
         notifyTrackChanged();
+        // A stopped player should no longer pin the foreground notification.
+        // Demote from foreground (removes the notification) and let the service
+        // exit once nothing else is bound to it.
+        stopForeground(Service.STOP_FOREGROUND_REMOVE);
+        stopSelf();
     }
 
     // ---- internals ------------------------------------------------------------
